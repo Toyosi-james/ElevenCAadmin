@@ -1,5 +1,11 @@
+/**
+ * SVG icons and small UI chrome (StatusPill).
+ * No API logic — presentation only.
+ */
+
 import React, { useId } from 'react'
 
+/** Brand mark in the header; gradient id must be unique per instance (useId). */
 export function IconHexMark({ className }) {
   const gid = useId().replace(/:/g, '')
   const href = `url(#${gid})`
@@ -70,6 +76,7 @@ export function IconArrowLeft({ className }) {
   )
 }
 
+/** Small badge in page headers (e.g. "Add balance", "KYC"). */
 export function StatusPill({ children }) {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-linear-to-b from-white/8 to-white/2 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-zinc-300 shadow-sm shadow-black/40 ring-1 ring-inset ring-white/5 sm:text-[11px]">

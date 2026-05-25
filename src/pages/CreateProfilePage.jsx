@@ -1,9 +1,17 @@
+/**
+ * CREATE PROFILE PAGE (multi-step wizard)
+ * ---------------------------------------
+ * Final step submits via createProfile() → POST /api/profiles
+ * See src/api/createProfile.js for the exact JSON field names your backend should accept.
+ */
+
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { createProfile } from '../api/createProfile.js'
 import { fieldInputClass, FormField } from '../components/FormField.jsx'
 import { IconArrowLeft, IconHexMark, IconLock, StatusPill } from '../components/Icons.jsx'
 
+/** Wizard steps shown in the stepper UI (order matters). */
 const STEPS = [
   {
     id: 'account',
@@ -29,6 +37,7 @@ const initialForm = {
   mainBalanceAmount: '',
 }
 
+/** Progress indicator at the top of the profile form. */
 function Stepper({ current, steps }) {
   const total = steps.length
   return (
@@ -108,6 +117,7 @@ export default function CreateProfilePage() {
     window.setTimeout(() => el.focus(), 120)
   }
 
+  /** Client-side checks before moving to the next step or submitting. */
   function validateStep(index) {
     const u = form.username.trim()
     const userOk = /^[a-zA-Z0-9._-]+$/.test(u) && u.length >= 3
@@ -193,8 +203,9 @@ export default function CreateProfilePage() {
       return
     }
 
+    // --- API call: src/api/createProfile.js ---
     const payload = {
-      // Keep field names aligned with backend DTO/request schema.
+      // Field names must match your backend request body / DTO.
       firstName: form.firstName.trim(),
       lastName: form.lastName.trim(),
       username: form.username.trim(),
@@ -210,7 +221,7 @@ export default function CreateProfilePage() {
 
     setSubmitting(true)
     try {
-      await createProfile(payload)
+      await createProfile(payload) // POST /api/profiles
       setSuccess(true)
       setForm(initialForm)
       setStep(0)

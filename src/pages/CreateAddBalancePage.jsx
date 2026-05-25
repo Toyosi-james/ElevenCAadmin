@@ -1,9 +1,19 @@
+/**
+ * CREATE ADD BALANCE PAGE
+ * -----------------------
+ * Form: username + amount → POST via createAddBalance() in src/api/createAddBalance.js
+ *
+ * On submit, the page validates locally, then sends JSON to your backend.
+ * Server error text (message/error field) is shown in the red alert box.
+ */
+
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { createAddBalance } from '../api/createAddBalance.js'
 import { fieldInputClass, FormField } from '../components/FormField.jsx'
 import { IconArrowLeft, IconHexMark, IconLock, StatusPill } from '../components/Icons.jsx'
 
+/** Empty form state — reset after a successful API call. */
 const initialForm = {
   username: '',
   addBalanceAmount: '',
@@ -15,6 +25,7 @@ export default function CreateAddBalancePage() {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(null)
 
+  /** Update one field; clear previous errors when the user edits. */
   function update(name, value) {
     setForm((prev) => ({ ...prev, [name]: value }))
     setError(null)
@@ -38,9 +49,15 @@ export default function CreateAddBalancePage() {
       return
     }
 
+    // --- API call: see src/api/createAddBalance.js for URL and JSON shape ---
+    const payload = {
+      username,
+      addBalanceAmount: amount,
+    }
+
     setSubmitting(true)
     try {
-      await createAddBalance({ username, addBalanceAmount: amount })
+      await createAddBalance(payload)
       setSuccess(true)
       setForm(initialForm)
     } catch (err) {

@@ -1,3 +1,8 @@
+/**
+ * Decorative full-screen background (gradients, grid, noise).
+ * Rendered once in App.jsx behind all pages; pointer-events-none so clicks pass through.
+ */
+
 export function CryptoBackdrop() {
   return (
     <>

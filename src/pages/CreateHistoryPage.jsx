@@ -1,3 +1,9 @@
+/**
+ * CREATE TRANSACTION HISTORY PAGE
+ * -------------------------------
+ * Submits ledger rows via createTransactionHistory() → POST /api/transaction-history
+ */
+
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { createTransactionHistory } from '../api/createTransactionHistory.js'
@@ -43,6 +49,7 @@ export default function CreateHistoryPage() {
 
     setSubmitting(true)
     try {
+      // --- API call: src/api/createTransactionHistory.js ---
       // Backend payload keeps date/time both split and combined for flexibility.
       const payload = {
         username: form.username.trim(),
@@ -58,8 +65,8 @@ export default function CreateHistoryPage() {
       await createTransactionHistory(payload)
       setSuccess(true)
       setForm(initialForm)
-    } catch {
-      setError('Could not create transaction history right now.')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not create transaction history right now.')
     } finally {
       setSubmitting(false)
     }

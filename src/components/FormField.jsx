@@ -1,3 +1,8 @@
+/**
+ * FormField — label + styled input wrapper used on every admin form page.
+ * Pass the actual <input>, <select>, or <textarea> as children.
+ */
+
 import React from 'react'
 
 const labelCls =
@@ -20,6 +25,7 @@ export function FormField({ id, label, hint, children }) {
   )
 }
 
+/** Tailwind classes for inputs inside FormField (defined in index.css .crypto-field-*). */
 const inputInner =
   'w-full border-0 bg-transparent px-3.5 py-3.5 text-sm text-zinc-100 outline-none placeholder:text-zinc-600 disabled:opacity-50'
 

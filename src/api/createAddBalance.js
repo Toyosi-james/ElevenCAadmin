@@ -1,51 +1,32 @@
 /**
- * POST add-balance to your API.
- * Set `VITE_API_BASE_URL` (no trailing slash) in `.env`.
- * Falls back to same-origin `/api/add-balance` when unset.
+ * CREATE ADD BALANCE — API module
+ * =================================
+ * Used by: src/pages/CreateAddBalancePage.jsx
+ *
+ * Backend contract (implement on your server):
+ *   Method:  POST
+ *   Path:    /api/add-balance
+ *   Body:    { "username": string, "addBalanceAmount": number }
+ *
+ * Success: HTTP 2xx, optional JSON body (e.g. { "ok": true, "newBalance": 1500 })
+ * Error:   HTTP 4xx/5xx with JSON { "message": "..." } or { "error": "..." }
  */
 
-function addBalanceEndpoint() {
-  const base = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '')
-  return base ? `${base}/api/add-balance` : '/api/add-balance'
-}
+import { API_PATHS } from './endpoints.js'
+import { postJson } from './httpClient.js'
 
 /**
  * @typedef {Object} CreateAddBalancePayload
- * @property {string} username
- * @property {number} addBalanceAmount
+ * @property {string} username — profile to credit (trimmed on the page before send)
+ * @property {number} addBalanceAmount — positive number; page validates > 0
  */
 
 /**
+ * Credit balance for an existing user.
+ *
  * @param {CreateAddBalancePayload} payload
- * @returns {Promise<unknown>}
+ * @returns {Promise<unknown>} — backend JSON on success
  */
 export async function createAddBalance(payload) {
-  const res = await fetch(addBalanceEndpoint(), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify(payload),
-  })
-
-  const raw = await res.text()
-  let data = null
-  if (raw) {
-    try {
-      data = JSON.parse(raw)
-    } catch {
-      data = raw
-    }
-  }
-
-  if (!res.ok) {
-    const message =
-      (typeof data === 'object' && data !== null && (data.message ?? data.error)) ||
-      (typeof data === 'string' ? data : null) ||
-      `Request failed (${res.status})`
-    throw new Error(String(message))
-  }
-
-  return data ?? { ok: true }
+  return postJson(API_PATHS.addBalance, payload)
 }

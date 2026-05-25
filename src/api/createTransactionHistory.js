@@ -1,24 +1,27 @@
 /**
- * POST transaction history to your API.
- * Set `VITE_API_BASE_URL` (no trailing slash) in `.env`.
- * Falls back to same-origin `/api/transaction-history` when unset.
+ * CREATE TRANSACTION HISTORY — API module
+ * ========================================
+ * Used by: src/pages/CreateHistoryPage.jsx
+ *
+ * Backend contract:
+ *   Method:  POST
+ *   Path:    /api/transaction-history
+ *   Body:    see CreateTransactionHistoryPayload below
  */
 
-function transactionHistoryEndpoint() {
-  const base = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '')
-  return base ? `${base}/api/transaction-history` : '/api/transaction-history'
-}
+import { API_PATHS } from './endpoints.js'
+import { postJson } from './httpClient.js'
 
 /**
  * @typedef {Object} CreateTransactionHistoryPayload
  * @property {string} username
- * @property {string} transaction
- * @property {string} transactionDetails
- * @property {number} transactionAmount
+ * @property {string} transaction — short label (e.g. "Deposit")
+ * @property {string} transactionDetails — longer description
+ * @property {number} transactionAmount — positive amount
  * @property {"completed"|"pending"|"rejected"} transactionStatus
- * @property {string} transactionDate
- * @property {string} transactionTime
- * @property {string} transactionDateTime
+ * @property {string} transactionDate — YYYY-MM-DD
+ * @property {string} transactionTime — HH:mm
+ * @property {string} transactionDateTime — combined ISO-style string from page
  */
 
 /**
@@ -26,32 +29,5 @@ function transactionHistoryEndpoint() {
  * @returns {Promise<unknown>}
  */
 export async function createTransactionHistory(payload) {
-  const res = await fetch(transactionHistoryEndpoint(), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify(payload),
-  })
-
-  const raw = await res.text()
-  let data = null
-  if (raw) {
-    try {
-      data = JSON.parse(raw)
-    } catch {
-      data = raw
-    }
-  }
-
-  if (!res.ok) {
-    const message =
-      (typeof data === 'object' && data !== null && (data.message ?? data.error)) ||
-      (typeof data === 'string' ? data : null) ||
-      `Request failed (${res.status})`
-    throw new Error(String(message))
-  }
-
-  return data ?? { ok: true }
+  return postJson(API_PATHS.transactionHistory, payload)
 }

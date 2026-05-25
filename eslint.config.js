@@ -1,3 +1,4 @@
+/** ESLint rules for React + Vite (browser globals, hooks plugin). */
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'

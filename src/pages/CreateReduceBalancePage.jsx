@@ -1,3 +1,11 @@
+/**
+ * CREATE REDUCE BALANCE PAGE
+ * --------------------------
+ * Form: username + amount → POST via createReduceBalance() in src/api/createReduceBalance.js
+ *
+ * Same flow as add balance, but debits the profile (see API contract in that file).
+ */
+
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { createReduceBalance } from '../api/createReduceBalance.js'
@@ -38,9 +46,15 @@ export default function CreateReduceBalancePage() {
       return
     }
 
+    // --- API call: see src/api/createReduceBalance.js for URL and JSON shape ---
+    const payload = {
+      username,
+      reduceBalanceAmount: amount,
+    }
+
     setSubmitting(true)
     try {
-      await createReduceBalance({ username, reduceBalanceAmount: amount })
+      await createReduceBalance(payload)
       setSuccess(true)
       setForm(initialForm)
     } catch (err) {
