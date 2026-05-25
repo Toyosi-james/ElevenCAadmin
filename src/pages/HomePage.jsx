@@ -1,22 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { IconHexMark, IconHistory, IconLock, IconProfile, StatusPill } from '../components/Icons.jsx'
+import { IconHexMark, IconHistory, IconLock, IconMinus, IconPlus, IconProfile, StatusPill } from '../components/Icons.jsx'
 
 function ActionCard({ iconSlot, title, description, buttonLabel, buttonClass, to }) {
-  const ctaClass = `mt-8 inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold tracking-tight shadow-lg transition focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[0.98] ${buttonClass}`
+  const ctaClass = `mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-center text-[11px] font-semibold leading-snug tracking-tight shadow-lg transition focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[0.98] lg:mt-5 lg:px-3 lg:py-2.5 lg:text-xs ${buttonClass}`
 
   return (
-    <div className="group relative">
-      <div className="absolute -inset-px rounded-2xl bg-linear-to-br from-amber-200/25 via-violet-500/20 to-cyan-400/25 opacity-60 blur-xl transition duration-700 group-hover:opacity-100" />
-      <div className="absolute -inset-px rounded-2xl bg-linear-to-br from-amber-200/35 via-fuchsia-500/25 to-cyan-400/35 opacity-80 transition duration-500 group-hover:opacity-100" />
-      <article className="relative flex h-full flex-col rounded-2xl border border-white/10 bg-linear-to-br from-zinc-900/75 via-zinc-950/85 to-zinc-950/95 p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset,0_28px_72px_-28px_rgba(0,0,0,0.88)] backdrop-blur-2xl sm:rounded-3xl sm:p-8">
-        <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-white/8 to-white/2 ring-1 ring-inset ring-white/10">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-linear-to-br from-violet-500/15 to-cyan-500/10 text-cyan-200/90 ring-1 ring-white/10">
+    <div className="group relative min-w-0">
+      <div className="absolute -inset-px rounded-xl bg-linear-to-br from-amber-200/25 via-violet-500/20 to-cyan-400/25 opacity-60 blur-lg transition duration-700 group-hover:opacity-100" />
+      <div className="absolute -inset-px rounded-xl bg-linear-to-br from-amber-200/35 via-fuchsia-500/25 to-cyan-400/35 opacity-80 transition duration-500 group-hover:opacity-100" />
+      <article className="relative flex h-full min-w-0 flex-col rounded-xl border border-white/10 bg-linear-to-br from-zinc-900/75 via-zinc-950/85 to-zinc-950/95 p-4 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset,0_20px_48px_-24px_rgba(0,0,0,0.88)] backdrop-blur-2xl lg:p-5">
+        <div className="mb-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-white/8 to-white/2 ring-1 ring-inset ring-white/10 lg:mb-4 lg:h-11 lg:w-11">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-violet-500/15 to-cyan-500/10 text-cyan-200/90 ring-1 ring-white/10 lg:h-9 lg:w-9">
             {iconSlot}
           </div>
         </div>
-        <h2 className="text-lg font-semibold tracking-tight text-zinc-50 sm:text-xl">{title}</h2>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-zinc-500">{description}</p>
+        <h2 className="text-sm font-semibold tracking-tight text-zinc-50 lg:text-base">{title}</h2>
+        <p className="mt-1.5 line-clamp-3 flex-1 text-xs leading-snug text-zinc-500 lg:mt-2">{description}</p>
         {to ? (
           <Link to={to} className={ctaClass}>
             {buttonLabel}
@@ -61,10 +61,10 @@ export default function HomePage() {
       <section className="mb-12 text-center sm:mb-16">
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.35em] text-cyan-400/80 sm:text-xs">// control center</p>
         <h1 className="mx-auto mt-4 max-w-3xl text-balance bg-linear-to-br from-white via-amber-100/95 to-cyan-200 bg-clip-text text-3xl font-semibold tracking-tight text-transparent sm:text-5xl sm:leading-[1.1]">
-          Treasury-grade operations, distilled into two actions.
+          Treasury-grade operations, distilled into four actions.
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-pretty text-sm leading-relaxed text-zinc-500 sm:text-base">
-          Onboard identities and append immutable activity with the same rigor you expect from custody infrastructure.
+          Onboard identities, adjust balances, and append immutable activity with the same rigor you expect from custody infrastructure.
         </p>
         <div className="mx-auto mt-8 flex max-w-md flex-wrap items-center justify-center gap-x-6 gap-y-2 border-y border-dashed border-white/6 py-4 font-mono text-[11px] text-zinc-600 sm:text-xs">
           <span className="text-zinc-500">
@@ -81,10 +81,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <main className="grid flex-1 gap-8 sm:grid-cols-2 sm:gap-10">
+      <main className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-4">
         <ActionCard
           to="/create-profile"
-          iconSlot={<IconProfile className="h-6 w-6" />}
+          iconSlot={<IconProfile className="h-5 w-5" />}
           title="Create profile"
           description="Provision a compliant profile with KYC-ready fields, limits, and signing authority mapped to your policy engine."
           buttonLabel="Create profile"
@@ -92,11 +92,27 @@ export default function HomePage() {
         />
         <ActionCard
           to="/create-history"
-          iconSlot={<IconHistory className="h-6 w-6" />}
+          iconSlot={<IconHistory className="h-5 w-5" />}
           title="Create transaction history"
           description="Post ledger movements with traceable hashes, counterparties, and audit metadata aligned to your reconciliation pipeline."
           buttonLabel="Create transaction history"
           buttonClass="border border-cyan-400/30 bg-linear-to-r from-cyan-400 via-teal-300 to-emerald-300 text-zinc-950 shadow-[0_0_48px_-12px_rgba(34,211,238,0.45)] hover:from-cyan-300 hover:to-emerald-200 focus-visible:outline-cyan-300/80"
+        />
+        <ActionCard
+          to="/create-add-balance"
+          iconSlot={<IconPlus className="h-5 w-5" />}
+          title="Create add balance"
+          description="Credit a profile with an audited balance increase, including amount, reference, and operator attribution for reconciliation."
+          buttonLabel="Create add balance"
+          buttonClass="border border-emerald-400/30 bg-linear-to-r from-emerald-400 via-green-300 to-lime-300 text-zinc-950 shadow-[0_0_48px_-12px_rgba(52,211,153,0.45)] hover:from-emerald-300 hover:to-lime-200 focus-visible:outline-emerald-300/80"
+        />
+        <ActionCard
+          to="/create-reduce-balance"
+          iconSlot={<IconMinus className="h-5 w-5" />}
+          title="Create reduce balance"
+          description="Debit a profile with a controlled balance reduction, preserving audit trails and policy checks before settlement."
+          buttonLabel="Create reduce balance"
+          buttonClass="border border-rose-400/30 bg-linear-to-r from-rose-400 via-orange-300 to-amber-300 text-zinc-950 shadow-[0_0_48px_-12px_rgba(251,113,133,0.45)] hover:from-rose-300 hover:to-amber-200 focus-visible:outline-rose-300/80"
         />
       </main>
       </div>
