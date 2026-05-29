@@ -1,15 +1,9 @@
-/**
- * HOME / CONTROL CENTER
- * ---------------------
- * Landing page with cards that link to each admin form.
- * No API requests here — only navigation via React Router.
- */
+// main hub — cards link to each form
 
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { IconHexMark, IconHistory, IconLock, IconMinus, IconPlus, IconProfile, StatusPill } from '../components/Icons.jsx'
 
-/** Reusable card for each admin action; `to` is the route path for that form. */
 function ActionCard({ iconSlot, title, description, buttonLabel, buttonClass, to }) {
   const ctaClass = `mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-center text-[11px] font-semibold leading-snug tracking-tight shadow-lg transition focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[0.98] lg:mt-5 lg:px-3 lg:py-2.5 lg:text-xs ${buttonClass}`
 

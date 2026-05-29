@@ -1,8 +1,5 @@
-/* Global styles and Tailwind theme — loaded once from main.jsx */
-
 @import "tailwindcss";
 
-/* Custom fonts referenced in index.html (Outfit + IBM Plex Mono) */
 @theme {
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
@@ -46,7 +43,6 @@
     opacity: 0.035;
   }
 
-  /* Form inputs: gradient border glow on focus (see FormField.jsx) */
   .crypto-field-shell {
     border-radius: 0.875rem;
     padding: 1px;
@@ -69,7 +65,6 @@
     background: linear-gradient(180deg, rgba(24, 24, 27, 0.98) 0%, rgba(9, 9, 11, 0.99) 100%);
   }
 
-  /* Custom chevron for <select> on form pages */
   .crypto-select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a1a1aa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
     background-repeat: no-repeat;

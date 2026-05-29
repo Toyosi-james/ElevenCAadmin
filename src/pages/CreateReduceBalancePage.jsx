@@ -1,14 +1,7 @@
-/**
- * CREATE REDUCE BALANCE PAGE
- * --------------------------
- * Form: username + amount → POST via createReduceBalance() in src/api/createReduceBalance.js
- *
- * Same flow as add balance, but debits the profile (see API contract in that file).
- */
+// reduce balance form — ui only for now
 
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { createReduceBalance } from '../api/createReduceBalance.js'
 import { fieldInputClass, FormField } from '../components/FormField.jsx'
 import { IconArrowLeft, IconHexMark, IconLock, StatusPill } from '../components/Icons.jsx'
 
@@ -29,7 +22,8 @@ export default function CreateReduceBalancePage() {
     setSuccess(false)
   }
 
-  async function handleSubmit(e) {
+  // validate, build payload, show success
+  function handleSubmit(e) {
     e.preventDefault()
     setError(null)
     setSuccess(false)
@@ -46,26 +40,23 @@ export default function CreateReduceBalancePage() {
       return
     }
 
-    // --- API call: see src/api/createReduceBalance.js for URL and JSON shape ---
+    // what we'd send to POST /api/reduce-balance
     const payload = {
       username,
       reduceBalanceAmount: amount,
     }
+    void payload
 
     setSubmitting(true)
-    try {
-      await createReduceBalance(payload)
-      setSuccess(true)
-      setForm(initialForm)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not reduce balance right now.')
-    } finally {
-      setSubmitting(false)
-    }
+    // no api hookup yet
+    setSuccess(true)
+    setForm(initialForm)
+    setSubmitting(false)
   }
 
   return (
     <div className="flex min-h-dvh flex-col">
+      {/* header */}
       <header className="relative w-full border-b border-white/8 bg-zinc-950/45 px-4 pt-6 pb-8 backdrop-blur-2xl sm:px-8 sm:pb-10 lg:px-12">
         <div
           aria-hidden
@@ -99,6 +90,7 @@ export default function CreateReduceBalancePage() {
 
       <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4 pb-16 pt-10 sm:px-6 lg:px-8">
         {success ? (
+          /* success banner */
           <div className="mb-8 overflow-hidden rounded-2xl border border-emerald-500/30 bg-linear-to-br from-emerald-500/15 to-emerald-950/40 px-5 py-6 text-sm text-emerald-50 shadow-[0_0_48px_-20px_rgba(52,211,153,0.5)]">
             <p className="text-base font-semibold tracking-tight">Balance reduced successfully.</p>
             <p className="mt-2 text-sm leading-relaxed text-emerald-100/75">

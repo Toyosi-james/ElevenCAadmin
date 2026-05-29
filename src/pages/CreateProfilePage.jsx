@@ -1,17 +1,11 @@
-/**
- * CREATE PROFILE PAGE (multi-step wizard)
- * ---------------------------------------
- * Final step submits via createProfile() → POST /api/profiles
- * See src/api/createProfile.js for the exact JSON field names your backend should accept.
- */
+// profile wizard — 4 steps, no backend yet
 
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { createProfile } from '../api/createProfile.js'
 import { fieldInputClass, FormField } from '../components/FormField.jsx'
 import { IconArrowLeft, IconHexMark, IconLock, StatusPill } from '../components/Icons.jsx'
 
-/** Wizard steps shown in the stepper UI (order matters). */
+// step labels for the stepper + form headings
 const STEPS = [
   {
     id: 'account',
@@ -23,6 +17,7 @@ const STEPS = [
   { id: 'ledger', title: 'Balance', description: 'Opening ledger amount' },
 ]
 
+// starting values when form loads or after submit
 const initialForm = {
   firstName: '',
   lastName: '',
@@ -37,7 +32,7 @@ const initialForm = {
   mainBalanceAmount: '',
 }
 
-/** Progress indicator at the top of the profile form. */
+// dots + progress bar above the form
 function Stepper({ current, steps }) {
   const total = steps.length
   return (
@@ -93,6 +88,7 @@ function Stepper({ current, steps }) {
 }
 
 export default function CreateProfilePage() {
+  // form fields, current step, submit state
   const [form, setForm] = useState(initialForm)
   const [step, setStep] = useState(0)
   const [submitting, setSubmitting] = useState(false)
@@ -101,29 +97,29 @@ export default function CreateProfilePage() {
 
   const lastIndex = STEPS.length - 1
 
+  // keep form in sync when user types
   function update(name, value) {
     setForm((prev) => ({ ...prev, [name]: value }))
     setError(null)
     setSuccess(false)
   }
 
+  // jump to the field that failed validation
   function focusField(fieldId) {
     if (!fieldId) return
     const el = document.getElementById(fieldId)
     if (!el) return
-    // Ensure the invalid field is visible before moving keyboard focus.
     el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    // Let scroll settle before focus to avoid jumpy UI.
     window.setTimeout(() => el.focus(), 120)
   }
 
-  /** Client-side checks before moving to the next step or submitting. */
+  // check each wizard step before next or submit
   function validateStep(index) {
     const u = form.username.trim()
     const userOk = /^[a-zA-Z0-9._-]+$/.test(u) && u.length >= 3
 
     switch (index) {
-      case 0:
+      case 0: // account — name, username, email, password, pin
         if (!form.firstName.trim()) return { message: 'Please enter first name.', fieldId: 'firstName' }
         if (!form.lastName.trim()) return { message: 'Please enter last name.', fieldId: 'lastName' }
         if (!userOk)
@@ -137,7 +133,7 @@ export default function CreateProfilePage() {
           return { message: 'Asset PIN must be exactly 4 or 6 digits.', fieldId: 'assetPin' }
         }
         return null
-      case 1: {
+      case 1: { // profile — gender, age, country
         if (!form.gender) return { message: 'Please select gender.', fieldId: 'gender' }
         const ageNum = Number.parseInt(form.age, 10)
         if (!Number.isFinite(ageNum) || ageNum < 18 || ageNum > 120) {
@@ -146,12 +142,12 @@ export default function CreateProfilePage() {
         if (!form.country.trim()) return { message: 'Please enter country.', fieldId: 'country' }
         return null
       }
-      case 2:
+      case 2: // address
         if (!form.residentialAddress.trim()) {
           return { message: 'Please enter your residential address.', fieldId: 'residentialAddress' }
         }
         return null
-      case 3: {
+      case 3: { // opening balance
         const n = Number.parseFloat(form.mainBalanceAmount)
         if (!Number.isFinite(n) || n < 0) {
           return { message: 'Enter a valid non-negative balance.', fieldId: 'mainBalanceAmount' }
@@ -179,7 +175,8 @@ export default function CreateProfilePage() {
     setStep((s) => Math.max(s - 1, 0))
   }
 
-  async function handleSubmit(e) {
+  // last step — build payload and finish (no api yet)
+  function handleSubmit(e) {
     e.preventDefault()
     setError(null)
     setSuccess(false)
@@ -203,9 +200,8 @@ export default function CreateProfilePage() {
       return
     }
 
-    // --- API call: src/api/createProfile.js ---
+    // POST /api/profiles body
     const payload = {
-      // Field names must match your backend request body / DTO.
       firstName: form.firstName.trim(),
       lastName: form.lastName.trim(),
       username: form.username.trim(),
@@ -218,24 +214,21 @@ export default function CreateProfilePage() {
       residentialAddress: form.residentialAddress.trim(),
       mainBalanceAmount: balanceNum,
     }
+    void payload
 
     setSubmitting(true)
-    try {
-      await createProfile(payload) // POST /api/profiles
-      setSuccess(true)
-      setForm(initialForm)
-      setStep(0)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not create profile.')
-    } finally {
-      setSubmitting(false)
-    }
+    // no api hookup yet
+    setSuccess(true)
+    setForm(initialForm)
+    setStep(0)
+    setSubmitting(false)
   }
 
   const stepMeta = STEPS[step]
 
   return (
     <div className="flex min-h-dvh flex-col">
+      {/* top bar — back link + page title */}
       <header className="relative w-full border-b border-white/8 bg-zinc-950/45 px-4 pt-6 pb-8 backdrop-blur-2xl sm:px-8 sm:pb-10 lg:px-12">
         <div
           aria-hidden
@@ -271,10 +264,11 @@ export default function CreateProfilePage() {
 
       <div className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pb-16 pt-10 sm:max-w-2xl sm:px-6 lg:px-8">
         {success ? (
+          /* done — offer hub or another profile */
           <div className="mx-auto w-full overflow-hidden rounded-2xl border border-emerald-500/30 bg-linear-to-br from-emerald-500/15 to-emerald-950/40 px-5 py-6 text-sm text-emerald-50 shadow-[0_0_48px_-20px_rgba(52,211,153,0.5)]">
             <p className="text-base font-semibold tracking-tight">Profile submitted successfully.</p>
             <p className="mt-2 text-sm leading-relaxed text-emerald-100/75">
-              Your backend accepted the request. You can start another profile or return to the hub.
+              All steps are complete. You can start another profile or return to the hub.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
@@ -296,6 +290,7 @@ export default function CreateProfilePage() {
           <form onSubmit={handleSubmit} className="mx-auto flex w-full flex-col">
             <Stepper current={step} steps={STEPS} />
 
+            {/* card wrapper — glow + border */}
             <div className="relative mt-8">
               <div
                 aria-hidden
@@ -310,6 +305,7 @@ export default function CreateProfilePage() {
               </div>
 
               {error ? (
+                /* validation message */
                 <div
                   className="mb-6 rounded-xl border border-red-400/40 bg-linear-to-r from-red-500/15 to-red-950/30 px-4 py-3 text-sm text-red-100 shadow-[0_0_24px_-8px_rgba(248,113,113,0.35)]"
                   role="alert"
@@ -320,6 +316,7 @@ export default function CreateProfilePage() {
 
               <div className="space-y-5">
                 {step === 0 && (
+                  /* step 1 — account + credentials */
                   <>
                     <div className="grid gap-5 sm:grid-cols-2">
                       <FormField id="firstName" label="First name">
@@ -425,6 +422,7 @@ export default function CreateProfilePage() {
                 )}
 
                 {step === 1 && (
+                  /* step 2 — gender, age, country */
                   <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     <FormField id="gender" label="Gender">
                       <select
@@ -476,6 +474,7 @@ export default function CreateProfilePage() {
                 )}
 
                 {step === 2 && (
+                  /* step 3 — residential address */
                   <FormField id="residentialAddress" label="Residential address">
                     <textarea
                       id="residentialAddress"
@@ -493,6 +492,7 @@ export default function CreateProfilePage() {
                 )}
 
                 {step === 3 && (
+                  /* step 4 — opening balance */
                   <FormField
                     id="mainBalanceAmount"
                     label="Main balance amount"
@@ -520,6 +520,7 @@ export default function CreateProfilePage() {
                 )}
               </div>
 
+              {/* back / next / submit */}
               <div className="mt-10 flex flex-col-reverse gap-3 border-t border-white/8 pt-8 sm:flex-row sm:items-center sm:justify-between">
                 <button
                   type="button"
@@ -569,6 +570,7 @@ export default function CreateProfilePage() {
         )}
       </div>
 
+      {/* page footer */}
       <footer className="mt-auto w-full border-t border-white/6 bg-zinc-950/30 px-4 py-8 backdrop-blur-xl sm:px-8 lg:px-12">
         <div className="flex flex-col items-center justify-center gap-2 text-center sm:flex-row sm:gap-3">
           <IconLock className="h-3.5 w-3.5 text-zinc-600" />

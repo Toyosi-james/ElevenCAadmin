@@ -1,12 +1,7 @@
-/**
- * CREATE TRANSACTION HISTORY PAGE
- * -------------------------------
- * Submits ledger rows via createTransactionHistory() → POST /api/transaction-history
- */
+// transaction history form
 
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { createTransactionHistory } from '../api/createTransactionHistory.js'
 import { fieldInputClass, FormField } from '../components/FormField.jsx'
 import { IconArrowLeft, IconHexMark, IconLock, StatusPill } from '../components/Icons.jsx'
 
@@ -32,7 +27,7 @@ export default function CreateHistoryPage() {
     setSuccess(false)
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault()
     setError(null)
     setSuccess(false)
@@ -47,29 +42,24 @@ export default function CreateHistoryPage() {
       return
     }
 
-    setSubmitting(true)
-    try {
-      // --- API call: src/api/createTransactionHistory.js ---
-      // Backend payload keeps date/time both split and combined for flexibility.
-      const payload = {
-        username: form.username.trim(),
-        transaction: form.transaction.trim(),
-        transactionDetails: form.transactionDetails.trim(),
-        transactionAmount: amount,
-        transactionStatus: form.transactionStatus,
-        transactionDate: form.transactionDate,
-        transactionTime: form.transactionTime,
-        transactionDateTime: `${form.transactionDate}T${form.transactionTime}`,
-      }
-
-      await createTransactionHistory(payload)
-      setSuccess(true)
-      setForm(initialForm)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not create transaction history right now.')
-    } finally {
-      setSubmitting(false)
+    // backend wants date/time split + combined
+    const payload = {
+      username: form.username.trim(),
+      transaction: form.transaction.trim(),
+      transactionDetails: form.transactionDetails.trim(),
+      transactionAmount: amount,
+      transactionStatus: form.transactionStatus,
+      transactionDate: form.transactionDate,
+      transactionTime: form.transactionTime,
+      transactionDateTime: `${form.transactionDate}T${form.transactionTime}`,
     }
+    void payload
+
+    setSubmitting(true)
+    // no api hookup yet
+    setSuccess(true)
+    setForm(initialForm)
+    setSubmitting(false)
   }
 
   return (

@@ -1,7 +1,5 @@
-/**
- * Root layout: background, router, and one route per admin action.
- * Pages that call the backend live under src/pages/ and import from src/api/.
- */
+// routes + shared backdrop
+
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { CryptoBackdrop } from './components/CryptoBackdrop.jsx'
@@ -18,11 +16,9 @@ export default function App() {
         <CryptoBackdrop />
         <div className="relative flex min-h-dvh w-full flex-col">
           <Routes>
-            {/* Hub — links to each form; no API calls on this page */}
             <Route path="/" element={<HomePage />} />
-            <Route path="/create-profile" element={<CreateProfilePage />} /> {/* → POST /api/profiles */}
-            <Route path="/create-history" element={<CreateHistoryPage />} /> {/* → POST /api/transaction-history */}
-            {/* Balance adjustments → POST /api/add-balance and /api/reduce-balance */}
+            <Route path="/create-profile" element={<CreateProfilePage />} />
+            <Route path="/create-history" element={<CreateHistoryPage />} />
             <Route path="/create-add-balance" element={<CreateAddBalancePage />} />
             <Route path="/create-reduce-balance" element={<CreateReduceBalancePage />} />
           </Routes>
