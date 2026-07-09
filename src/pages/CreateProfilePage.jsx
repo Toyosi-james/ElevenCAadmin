@@ -159,6 +159,7 @@ export default function CreateProfilePage() {
     }
   }
 
+  // wizard navigation
   function goNext() {
     const issue = validateStep(step)
     if (issue) {
@@ -377,6 +378,7 @@ export default function CreateProfilePage() {
                     </FormField>
 
                     <div className="relative py-2">
+                      {/* visual break before password fields */}
                       <div className="absolute inset-x-0 top-1/2 h-px bg-linear-to-r from-transparent via-violet-500/40 to-transparent" aria-hidden />
                       <p className="relative mx-auto w-fit bg-zinc-950 px-3 font-mono text-[10px] uppercase tracking-[0.35em] text-fuchsia-300/90">
                         Credentials

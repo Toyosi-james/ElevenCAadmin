@@ -99,6 +99,7 @@ export default function CreateReduceBalancePage() {
           </div>
         ) : null}
 
+        {/* main form */}
         <form onSubmit={handleSubmit} className="relative mt-2">
           <div
             aria-hidden
@@ -115,6 +116,7 @@ export default function CreateReduceBalancePage() {
             </div>
 
             {error ? (
+              /* validation / error */
               <div
                 className="mb-6 rounded-xl border border-red-400/40 bg-linear-to-r from-red-500/15 to-red-950/30 px-4 py-3 text-sm text-red-100 shadow-[0_0_24px_-8px_rgba(248,113,113,0.35)]"
                 role="alert"
@@ -124,6 +126,7 @@ export default function CreateReduceBalancePage() {
             ) : null}
 
             <div className="space-y-5">
+              {/* username + amount */}
               <FormField id="username" label="Username">
                 <input
                   id="username"
@@ -154,6 +157,7 @@ export default function CreateReduceBalancePage() {
               </FormField>
             </div>
 
+            {/* submit */}
             <div className="mt-10 flex justify-end border-t border-white/8 pt-8">
               <button
                 type="submit"
@@ -174,6 +178,7 @@ export default function CreateReduceBalancePage() {
         </form>
       </div>
 
+      {/* footer */}
       <footer className="mt-auto w-full border-t border-white/6 bg-zinc-950/30 px-4 py-8 backdrop-blur-xl sm:px-8 lg:px-12">
         <div className="flex flex-col items-center justify-center gap-2 text-center sm:flex-row sm:gap-3">
           <IconLock className="h-3.5 w-3.5 text-zinc-600" />

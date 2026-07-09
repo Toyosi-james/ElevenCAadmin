@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+// uppercase mono labels on every form
 const labelCls =
   'block font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-zinc-500'
 
@@ -11,6 +12,7 @@ export function FormField({ id, label, hint, children }) {
       <label className={labelCls} htmlFor={id}>
         {label}
       </label>
+      {/* gradient border from index.css */}
       <div className="crypto-field-shell mt-2">
         <div className="crypto-field-inner">{children}</div>
       </div>
@@ -19,6 +21,7 @@ export function FormField({ id, label, hint, children }) {
   )
 }
 
+// paste this on inputs, selects, textareas
 const inputInner =
   'w-full border-0 bg-transparent px-3.5 py-3.5 text-sm text-zinc-100 outline-none placeholder:text-zinc-600 disabled:opacity-50'
 

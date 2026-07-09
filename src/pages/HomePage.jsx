@@ -4,6 +4,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { IconHexMark, IconHistory, IconLock, IconMinus, IconPlus, IconProfile, StatusPill } from '../components/Icons.jsx'
 
+// card on the home page — icon, text, link button
 function ActionCard({ iconSlot, title, description, buttonLabel, buttonClass, to }) {
   const ctaClass = `mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-center text-[11px] font-semibold leading-snug tracking-tight shadow-lg transition focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[0.98] lg:mt-5 lg:px-3 lg:py-2.5 lg:text-xs ${buttonClass}`
 
@@ -36,6 +37,7 @@ function ActionCard({ iconSlot, title, description, buttonLabel, buttonClass, to
 export default function HomePage() {
   return (
     <div className="flex min-h-dvh flex-col">
+      {/* top bar — logo + status pills */}
       <header className="relative w-full border-b border-white/8 bg-zinc-950/40 px-4 pt-6 pb-8 backdrop-blur-2xl sm:px-8 sm:pt-8 lg:px-12">
         <div
           aria-hidden
@@ -60,6 +62,7 @@ export default function HomePage() {
       </header>
 
       <div className="mx-auto w-full max-w-screen-2xl flex-1 px-4 pb-12 pt-10 sm:px-6 sm:pb-14 sm:pt-12 lg:px-12 xl:px-16">
+      {/* hero text + fake stats row */}
       <section className="mb-12 text-center sm:mb-16">
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.35em] text-cyan-400/80 sm:text-xs">// control center</p>
         <h1 className="mx-auto mt-4 max-w-3xl text-balance bg-linear-to-br from-white via-amber-100/95 to-cyan-200 bg-clip-text text-3xl font-semibold tracking-tight text-transparent sm:text-5xl sm:leading-[1.1]">
@@ -83,6 +86,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* four action cards */}
       <main className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-4">
         <ActionCard
           to="/create-profile"
@@ -119,6 +123,7 @@ export default function HomePage() {
       </main>
       </div>
 
+      {/* page footer */}
       <footer className="mt-auto w-full border-t border-white/6 bg-zinc-950/30 px-4 py-8 backdrop-blur-xl sm:px-8 lg:px-12">
         <div className="flex flex-col items-center justify-center gap-2 text-center sm:flex-row sm:gap-3">
           <IconLock className="h-3.5 w-3.5 text-zinc-600" />

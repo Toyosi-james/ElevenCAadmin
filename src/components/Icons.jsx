@@ -19,6 +19,7 @@ export function IconHexMark({ className }) {
   )
 }
 
+// home card + profile page
 export function IconProfile({ className }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
@@ -63,6 +64,7 @@ export function IconLock({ className }) {
   )
 }
 
+// back to home link on form pages
 export function IconArrowLeft({ className }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
@@ -71,6 +73,7 @@ export function IconArrowLeft({ className }) {
   )
 }
 
+// little green dot badge in headers
 export function StatusPill({ children }) {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-linear-to-b from-white/8 to-white/2 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-zinc-300 shadow-sm shadow-black/40 ring-1 ring-inset ring-white/5 sm:text-[11px]">

@@ -15,6 +15,7 @@ export default function App() {
       <div className="font-sans min-h-dvh overflow-x-hidden bg-[#020203] text-zinc-200 antialiased">
         <CryptoBackdrop />
         <div className="relative flex min-h-dvh w-full flex-col">
+          {/* one route per admin page */}
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/create-profile" element={<CreateProfilePage />} />

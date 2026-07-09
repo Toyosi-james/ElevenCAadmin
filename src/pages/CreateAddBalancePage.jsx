@@ -100,6 +100,7 @@ export default function CreateAddBalancePage() {
           </div>
         ) : null}
 
+        {/* main form */}
         <form onSubmit={handleSubmit} className="relative mt-2">
           <div
             aria-hidden
